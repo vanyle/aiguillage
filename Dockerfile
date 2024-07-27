@@ -45,6 +45,8 @@ RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -ldflags '-linkmode external 
 FROM scratch
 
 ENV GIN_MODE=release
+ENV PROD=1
+
 COPY --from=backend-builder /aiguillage /aiguillage
 COPY --from=frontend-builder /web/dist /serve
 

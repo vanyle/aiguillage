@@ -15,6 +15,26 @@ export const UseDefaultServiceGetConfigItemKeyFn = ({ key, serviceId }: {
   key?: string;
   serviceId?: number;
 } = {}, queryKey?: Array<unknown>) => [useDefaultServiceGetConfigItemKey, ...(queryKey ?? [{ key, serviceId }])];
+export type DefaultServiceFilterLogsDefaultResponse = Awaited<ReturnType<typeof DefaultService.filterLogs>>;
+export type DefaultServiceFilterLogsQueryResult<TData = DefaultServiceFilterLogsDefaultResponse, TError = unknown> = UseQueryResult<TData, TError>;
+export const useDefaultServiceFilterLogsKey = "DefaultServiceFilterLogs";
+export const UseDefaultServiceFilterLogsKeyFn = ({ endTime, limit, serviceId, severity, startTime }: {
+  endTime?: string;
+  limit?: number;
+  serviceId?: number;
+  severity?: string;
+  startTime?: string;
+} = {}, queryKey?: Array<unknown>) => [useDefaultServiceFilterLogsKey, ...(queryKey ?? [{ endTime, limit, serviceId, severity, startTime }])];
+export type DefaultServiceGetLogsDefaultResponse = Awaited<ReturnType<typeof DefaultService.getLogs>>;
+export type DefaultServiceGetLogsQueryResult<TData = DefaultServiceGetLogsDefaultResponse, TError = unknown> = UseQueryResult<TData, TError>;
+export const useDefaultServiceGetLogsKey = "DefaultServiceGetLogs";
+export const UseDefaultServiceGetLogsKeyFn = ({ endTime, limit, serviceId, severity, startTime }: {
+  endTime?: string;
+  limit?: number;
+  serviceId?: number;
+  severity?: string;
+  startTime?: string;
+} = {}, queryKey?: Array<unknown>) => [useDefaultServiceGetLogsKey, ...(queryKey ?? [{ endTime, limit, serviceId, severity, startTime }])];
 export type DefaultServiceSearchServicesDefaultResponse = Awaited<ReturnType<typeof DefaultService.searchServices>>;
 export type DefaultServiceSearchServicesQueryResult<TData = DefaultServiceSearchServicesDefaultResponse, TError = unknown> = UseQueryResult<TData, TError>;
 export const useDefaultServiceSearchServicesKey = "DefaultServiceSearchServices";
@@ -50,6 +70,7 @@ export type DefaultServiceGetServicesQueryResult<TData = DefaultServiceGetServic
 export const useDefaultServiceGetServicesKey = "DefaultServiceGetServices";
 export const UseDefaultServiceGetServicesKeyFn = (queryKey?: Array<unknown>) => [useDefaultServiceGetServicesKey, ...(queryKey ?? [])];
 export type DefaultServiceSetConfigMutationResult = Awaited<ReturnType<typeof DefaultService.setConfig>>;
+export type DefaultServiceLogMutationResult = Awaited<ReturnType<typeof DefaultService.log>>;
 export type DefaultServiceSetSelfConfigMutationResult = Awaited<ReturnType<typeof DefaultService.setSelfConfig>>;
 export type DefaultServiceSetHostnameMutationResult = Awaited<ReturnType<typeof DefaultService.setHostname>>;
 export type DefaultServiceSetVersionMutationResult = Awaited<ReturnType<typeof DefaultService.setVersion>>;

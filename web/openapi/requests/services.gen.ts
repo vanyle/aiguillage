@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { DeleteConfigData, DeleteConfigResponse, GetConfigData, GetConfigResponse, SetConfigData, SetConfigResponse, GetConfigItemData, GetConfigItemResponse, RegisterData, RegisterResponse, SearchServicesData, SearchServicesResponse, GetSelfData, GetSelfResponse, GetSelfConfigData, GetSelfConfigResponse, SetSelfConfigData, SetSelfConfigResponse, GetSelfServicesData, GetSelfServicesResponse, DeleteServiceData, DeleteServiceResponse, GetServiceData, GetServiceResponse, CreateServiceData, CreateServiceResponse, GetServicesResponse, SetHostnameData, SetHostnameResponse, SetVersionData, SetVersionResponse } from './types.gen';
+import type { DeleteConfigData, DeleteConfigResponse, GetConfigData, GetConfigResponse, SetConfigData, SetConfigResponse, GetConfigItemData, GetConfigItemResponse, FilterLogsData, FilterLogsResponse, LogData, LogResponse, GetLogsData, GetLogsResponse, RegisterData, RegisterResponse, SearchServicesData, SearchServicesResponse, GetSelfData, GetSelfResponse, GetSelfConfigData, GetSelfConfigResponse, SetSelfConfigData, SetSelfConfigResponse, GetSelfServicesData, GetSelfServicesResponse, DeleteServiceData, DeleteServiceResponse, GetServiceData, GetServiceResponse, CreateServiceData, CreateServiceResponse, GetServicesResponse, SetHostnameData, SetHostnameResponse, SetVersionData, SetVersionResponse } from './types.gen';
 
 export class DefaultService {
     /**
@@ -80,6 +80,81 @@ export class DefaultService {
             query: {
                 serviceId: data.serviceId,
                 key: data.key
+            }
+        });
+    }
+    
+    /**
+     * Get service logs with filters
+     * @param data The data for the request.
+     * @param data.serviceId The ID of the service
+     * @param data.severity The severity of the log message
+     * @param data.limit The number of messages to return
+     * @param data.startTime The start time of the log messages
+     * @param data.endTime The end time of the log messages
+     * @returns LogListBody OK
+     * @returns ErrorModel Error
+     * @throws ApiError
+     */
+    public static filterLogs(data: FilterLogsData = {}): CancelablePromise<FilterLogsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/filter-logs',
+            query: {
+                serviceId: data.serviceId,
+                severity: data.severity,
+                limit: data.limit,
+                startTime: data.startTime,
+                endTime: data.endTime
+            }
+        });
+    }
+    
+    /**
+     * Log a service message
+     * @param data The data for the request.
+     * @param data.name Your service name
+     * @param data.severity The severity of the log message
+     * @param data.message The message to log
+     * @returns GenericOutputBody OK
+     * @returns ErrorModel Error
+     * @throws ApiError
+     */
+    public static log(data: LogData = {}): CancelablePromise<LogResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/log',
+            query: {
+                name: data.name,
+                severity: data.severity,
+                message: data.message
+            }
+        });
+    }
+    
+    /**
+     * Get service logs
+     * severity, start and end time are ignored
+     * @param data The data for the request.
+     * @param data.serviceId The ID of the service
+     * @param data.severity The severity of the log message
+     * @param data.limit The number of messages to return
+     * @param data.startTime The start time of the log messages
+     * @param data.endTime The end time of the log messages
+     * @returns LogListBody OK
+     * @returns ErrorModel Error
+     * @throws ApiError
+     */
+    public static getLogs(data: GetLogsData = {}): CancelablePromise<GetLogsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/logs',
+            query: {
+                serviceId: data.serviceId,
+                severity: data.severity,
+                limit: data.limit,
+                startTime: data.startTime,
+                endTime: data.endTime
             }
         });
     }

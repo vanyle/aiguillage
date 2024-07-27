@@ -28,6 +28,45 @@ export const prefetchUseDefaultServiceGetConfigItem = (queryClient: QueryClient,
   serviceId?: number;
 } = {}) => queryClient.prefetchQuery({ queryKey: [Common.useDefaultServiceGetConfigItemKey, [{ key, serviceId }]], queryFn: () => DefaultService.getConfigItem({ key, serviceId }) });
 /**
+* Get service logs with filters
+* @param data The data for the request.
+* @param data.serviceId The ID of the service
+* @param data.severity The severity of the log message
+* @param data.limit The number of messages to return
+* @param data.startTime The start time of the log messages
+* @param data.endTime The end time of the log messages
+* @returns LogListBody OK
+* @returns ErrorModel Error
+* @throws ApiError
+*/
+export const prefetchUseDefaultServiceFilterLogs = (queryClient: QueryClient, { endTime, limit, serviceId, severity, startTime }: {
+  endTime?: string;
+  limit?: number;
+  serviceId?: number;
+  severity?: string;
+  startTime?: string;
+} = {}) => queryClient.prefetchQuery({ queryKey: [Common.useDefaultServiceFilterLogsKey, [{ endTime, limit, serviceId, severity, startTime }]], queryFn: () => DefaultService.filterLogs({ endTime, limit, serviceId, severity, startTime }) });
+/**
+* Get service logs
+* severity, start and end time are ignored
+* @param data The data for the request.
+* @param data.serviceId The ID of the service
+* @param data.severity The severity of the log message
+* @param data.limit The number of messages to return
+* @param data.startTime The start time of the log messages
+* @param data.endTime The end time of the log messages
+* @returns LogListBody OK
+* @returns ErrorModel Error
+* @throws ApiError
+*/
+export const prefetchUseDefaultServiceGetLogs = (queryClient: QueryClient, { endTime, limit, serviceId, severity, startTime }: {
+  endTime?: string;
+  limit?: number;
+  serviceId?: number;
+  severity?: string;
+  startTime?: string;
+} = {}) => queryClient.prefetchQuery({ queryKey: [Common.useDefaultServiceGetLogsKey, [{ endTime, limit, serviceId, severity, startTime }]], queryFn: () => DefaultService.getLogs({ endTime, limit, serviceId, severity, startTime }) });
+/**
 * Search for services by name
 * @param data The data for the request.
 * @param data.name The name of the service to search for

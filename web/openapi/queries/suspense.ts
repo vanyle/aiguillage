@@ -28,6 +28,45 @@ export const useDefaultServiceGetConfigItemSuspense = <TData = Common.DefaultSer
   serviceId?: number;
 } = {}, queryKey?: TQueryKey, options?: Omit<UseQueryOptions<TData, TError>, "queryKey" | "queryFn">) => useSuspenseQuery<TData, TError>({ queryKey: Common.UseDefaultServiceGetConfigItemKeyFn({ key, serviceId }, queryKey), queryFn: () => DefaultService.getConfigItem({ key, serviceId }) as TData, ...options });
 /**
+* Get service logs with filters
+* @param data The data for the request.
+* @param data.serviceId The ID of the service
+* @param data.severity The severity of the log message
+* @param data.limit The number of messages to return
+* @param data.startTime The start time of the log messages
+* @param data.endTime The end time of the log messages
+* @returns LogListBody OK
+* @returns ErrorModel Error
+* @throws ApiError
+*/
+export const useDefaultServiceFilterLogsSuspense = <TData = Common.DefaultServiceFilterLogsDefaultResponse, TError = unknown, TQueryKey extends Array<unknown> = unknown[]>({ endTime, limit, serviceId, severity, startTime }: {
+  endTime?: string;
+  limit?: number;
+  serviceId?: number;
+  severity?: string;
+  startTime?: string;
+} = {}, queryKey?: TQueryKey, options?: Omit<UseQueryOptions<TData, TError>, "queryKey" | "queryFn">) => useSuspenseQuery<TData, TError>({ queryKey: Common.UseDefaultServiceFilterLogsKeyFn({ endTime, limit, serviceId, severity, startTime }, queryKey), queryFn: () => DefaultService.filterLogs({ endTime, limit, serviceId, severity, startTime }) as TData, ...options });
+/**
+* Get service logs
+* severity, start and end time are ignored
+* @param data The data for the request.
+* @param data.serviceId The ID of the service
+* @param data.severity The severity of the log message
+* @param data.limit The number of messages to return
+* @param data.startTime The start time of the log messages
+* @param data.endTime The end time of the log messages
+* @returns LogListBody OK
+* @returns ErrorModel Error
+* @throws ApiError
+*/
+export const useDefaultServiceGetLogsSuspense = <TData = Common.DefaultServiceGetLogsDefaultResponse, TError = unknown, TQueryKey extends Array<unknown> = unknown[]>({ endTime, limit, serviceId, severity, startTime }: {
+  endTime?: string;
+  limit?: number;
+  serviceId?: number;
+  severity?: string;
+  startTime?: string;
+} = {}, queryKey?: TQueryKey, options?: Omit<UseQueryOptions<TData, TError>, "queryKey" | "queryFn">) => useSuspenseQuery<TData, TError>({ queryKey: Common.UseDefaultServiceGetLogsKeyFn({ endTime, limit, serviceId, severity, startTime }, queryKey), queryFn: () => DefaultService.getLogs({ endTime, limit, serviceId, severity, startTime }) as TData, ...options });
+/**
 * Search for services by name
 * @param data The data for the request.
 * @param data.name The name of the service to search for

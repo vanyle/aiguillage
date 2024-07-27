@@ -139,6 +139,29 @@ export const $GenericOutputBody = {
     type: 'object'
 } as const;
 
+export const $LogListBody = {
+    additionalProperties: false,
+    properties: {
+        '$schema': {
+            description: 'A URL to the JSON Schema for this object.',
+            examples: ['http://localhost:8080/schemas/LogListBody.json'],
+            format: 'uri',
+            readOnly: true,
+            type: 'string'
+        },
+        logs: {
+            description: 'A list of logs',
+            examples: [[]],
+            items: {
+                '$ref': '#/components/schemas/ServiceLog'
+            },
+            type: 'array'
+        }
+    },
+    required: ['logs'],
+    type: 'object'
+} as const;
+
 export const $OutputWithIdBody = {
     additionalProperties: false,
     properties: {
@@ -230,5 +253,45 @@ export const $ServiceListBody = {
         }
     },
     required: ['services'],
+    type: 'object'
+} as const;
+
+export const $ServiceLog = {
+    additionalProperties: false,
+    properties: {
+        CreatedAt: {
+            format: 'date-time',
+            type: 'string'
+        },
+        DeletedAt: {
+            '$ref': '#/components/schemas/DeletedAt'
+        },
+        ID: {
+            format: 'int64',
+            type: 'integer'
+        },
+        Kind: {
+            type: 'string'
+        },
+        Message: {
+            type: 'string'
+        },
+        Service: {
+            '$ref': '#/components/schemas/Service'
+        },
+        ServiceID: {
+            format: 'int64',
+            type: 'integer'
+        },
+        Timestamp: {
+            format: 'date-time',
+            type: 'string'
+        },
+        UpdatedAt: {
+            format: 'date-time',
+            type: 'string'
+        }
+    },
+    required: ['ID', 'Kind', 'Message', 'Timestamp', 'ServiceID', 'Service', 'CreatedAt', 'UpdatedAt', 'DeletedAt'],
     type: 'object'
 } as const;

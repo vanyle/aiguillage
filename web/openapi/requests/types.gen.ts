@@ -82,6 +82,17 @@ export type GenericOutputBody = {
     readonly $schema?: string;
 };
 
+export type LogListBody = {
+    /**
+     * A URL to the JSON Schema for this object.
+     */
+    readonly $schema?: string;
+    /**
+     * A list of logs
+     */
+    logs: Array<ServiceLog>;
+};
+
 export type OutputWithIdBody = {
     /**
      * A URL to the JSON Schema for this object.
@@ -123,6 +134,18 @@ export type ServiceListBody = {
      * A list of available services
      */
     services: Array<Service>;
+};
+
+export type ServiceLog = {
+    CreatedAt: string;
+    DeletedAt: DeletedAt;
+    ID: number;
+    Kind: string;
+    Message: string;
+    Service: Service;
+    ServiceID: number;
+    Timestamp: string;
+    UpdatedAt: string;
 };
 
 export type DeleteConfigData = {
@@ -172,6 +195,73 @@ export type GetConfigItemData = {
 };
 
 export type GetConfigItemResponse = ConfigObjBody | ErrorModel;
+
+export type FilterLogsData = {
+    /**
+     * The end time of the log messages
+     */
+    endTime?: string;
+    /**
+     * The number of messages to return
+     */
+    limit?: number;
+    /**
+     * The ID of the service
+     */
+    serviceId?: number;
+    /**
+     * The severity of the log message
+     */
+    severity?: string;
+    /**
+     * The start time of the log messages
+     */
+    startTime?: string;
+};
+
+export type FilterLogsResponse = LogListBody | ErrorModel;
+
+export type LogData = {
+    /**
+     * The message to log
+     */
+    message?: string;
+    /**
+     * Your service name
+     */
+    name?: string;
+    /**
+     * The severity of the log message
+     */
+    severity?: string;
+};
+
+export type LogResponse = GenericOutputBody | ErrorModel;
+
+export type GetLogsData = {
+    /**
+     * The end time of the log messages
+     */
+    endTime?: string;
+    /**
+     * The number of messages to return
+     */
+    limit?: number;
+    /**
+     * The ID of the service
+     */
+    serviceId?: number;
+    /**
+     * The severity of the log message
+     */
+    severity?: string;
+    /**
+     * The start time of the log messages
+     */
+    startTime?: string;
+};
+
+export type GetLogsResponse = LogListBody | ErrorModel;
 
 export type RegisterData = {
     /**
@@ -348,6 +438,51 @@ export type $OpenApiTs = {
                  * OK
                  */
                 200: ConfigObjBody;
+                /**
+                 * Error
+                 */
+                default: ErrorModel;
+            };
+        };
+    };
+    '/filter-logs': {
+        get: {
+            req: FilterLogsData;
+            res: {
+                /**
+                 * OK
+                 */
+                200: LogListBody;
+                /**
+                 * Error
+                 */
+                default: ErrorModel;
+            };
+        };
+    };
+    '/log': {
+        post: {
+            req: LogData;
+            res: {
+                /**
+                 * OK
+                 */
+                200: GenericOutputBody;
+                /**
+                 * Error
+                 */
+                default: ErrorModel;
+            };
+        };
+    };
+    '/logs': {
+        get: {
+            req: GetLogsData;
+            res: {
+                /**
+                 * OK
+                 */
+                200: LogListBody;
                 /**
                  * Error
                  */

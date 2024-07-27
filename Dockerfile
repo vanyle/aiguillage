@@ -25,9 +25,9 @@ COPY ./web/aiguillage.svg \
 RUN bun run build
 
 # ---------------------------------------------------
-FROM golang:bookworm AS backend-builder
+FROM golang:alpine AS backend-builder
 # Add gcc for cgo
-RUN apt-get update && apt-get install -y build-essential libsqlite3-dev
+RUN apk add build-base sqlite-libs sqlite-static
 
 WORKDIR $GOPATH/aiguillage
 

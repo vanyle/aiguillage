@@ -1,0 +1,24 @@
+{
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"typescript.updateImportsOnFileMove.enabled": "always",
+	"typescript.preferences.includePackageJsonAutoImports": "on",
+	"prisma.showPrismaDataPlatformNotification": false,
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"editor.suggest.showSnippets": false,
+	"editor.formatOnSave": true,
+	"prettier.useTabs": true,
+	"editor.codeActionsOnSave": {
+		"source.removeUnusedImports": "always",
+		"source.organizeImports": "always"
+	},
+	"typescript.autoClosingTags": false,
+	"typescript.suggest.autoImports": true,
+	"workbench.colorCustomizations": {
+		"activityBar.background": "#660f00",
+		"titleBar.activeBackground": "#660f00"
+	}
+}

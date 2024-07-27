@@ -16,7 +16,6 @@ COPY /web/package.json         \
 RUN bun install
 
 COPY ./web/src src
-COPY ./web/public public
 COPY ./web/openapi openapi
 COPY ./web/aiguillage.svg \
      ./web/index.html .

@@ -135,7 +135,17 @@ func SetConfig(db *gorm.DB, key string, value string, serviceId uint64) error {
 }
 
 func PerformDbMigrations(db *gorm.DB) {
-	db.AutoMigrate(&Service{})
-	db.AutoMigrate(&ServiceLog{})
-	db.AutoMigrate(&ConfigItem{})
+	var err error
+	err = db.AutoMigrate(&Service{})
+	if err != nil {
+		panic(err)
+	}
+	err = db.AutoMigrate(&ServiceLog{})
+	if err != nil {
+		panic(err)
+	}
+	err = db.AutoMigrate(&ConfigItem{})
+	if err != nil {
+		panic(err)
+	}
 }

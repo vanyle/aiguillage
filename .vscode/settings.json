@@ -20,5 +20,7 @@
 	"workbench.colorCustomizations": {
 		"activityBar.background": "#660f00",
 		"titleBar.activeBackground": "#660f00"
-	}
+	},
+	"go.lintTool": "golangci-lint",
+	"go.lintFlags": ["--fast"]
 }

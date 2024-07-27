@@ -37,7 +37,10 @@ func main() {
 	internal.PerformDbMigrations(db)
 
 	r := gin.New()
-	r.SetTrustedProxies(nil)
+	err = r.SetTrustedProxies(nil)
+	if err != nil {
+		panic(err)
+	}
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"}, // http://localhost:5173
@@ -57,5 +60,8 @@ func main() {
 		ctx.File("/serve/index.html")
 	})
 
-	http.ListenAndServe("0.0.0.0:"+PORT, r)
+	err = http.ListenAndServe("0.0.0.0:"+PORT, r)
+	if err != nil {
+		panic(err)
+	}
 }

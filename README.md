@@ -33,9 +33,10 @@ Aiguillage is packaged as a ~10Mb docker image and can be deployed on environmen
 
 On a machine with docker installed, run:
 ```bash
-git clone https://github.com/vanyle/aiguillage
 docker-compose up
 ```
+
+Or use the `ghcr.io/vanyle/aiguillage:latest` docker image.
 
 More information in [the documentation](./DOC.md)
 

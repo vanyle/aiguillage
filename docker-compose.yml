@@ -1,5 +1,5 @@
 services:
   aiguillage:
-    build: .
+    image: ghcr.io/vanyle/aiguillage:latest
     ports:
       - "8080:8080"

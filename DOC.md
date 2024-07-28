@@ -16,8 +16,10 @@ Checkout the Docker file for details.
 
 Run with docker:
 ```bash
+# Build the local image
 docker build .
-# Run the image you obtained
+# Or get it from the registry
+docker pull ghcr.io/vanyle/aiguillage:latest
 ```
 
 Run with docker-compose:

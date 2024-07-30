@@ -99,6 +99,14 @@ type LogFilter struct {
 	EndTime   time.Time `query:"endTime" example:"2022-01-02T00:00:00Z" doc:"The end time of the log messages"`
 }
 
+type RequestInfo struct {
+	Body struct {
+		IpAddress string            `example:"127.0.0.1" doc:"The IP you used to connect"`
+		Headers   map[string]string `doc:"The HTTP headers received"`
+		InferedIp string            `example:"127.0.0.1" doc:"The IP that was inferred from the headers and IP"`
+	}
+}
+
 func SetupEndpoints(api huma.API, db *gorm.DB) {
 
 	api.UseMiddleware(func(ctx huma.Context, next func(ctx huma.Context)) {
@@ -106,6 +114,13 @@ func SetupEndpoints(api huma.API, db *gorm.DB) {
 		// Strip port from addr
 		addr = addr[:strings.LastIndex(addr, ":")]
 		ctx = huma.WithValue(ctx, "remoteAddr", addr)
+
+		var headers map[string]string = make(map[string]string)
+		ctx.EachHeader(func(key, value string) {
+			headers[key] = value
+		})
+
+		ctx = huma.WithValue(ctx, "headers", headers)
 		next(ctx)
 	})
 
@@ -212,6 +227,22 @@ func SetupEndpoints(api huma.API, db *gorm.DB) {
 		var resp = &ServiceList{}
 		resp.Body.Services = services
 		return resp, result.Error
+	})
+
+	// Diagnostic tool
+	huma.Register(api, huma.Operation{
+		OperationID: "get-request-info",
+		Method:      "GET",
+		Path:        "/requestinfo",
+		Summary:     "Get information about your HTTP request",
+	}, func(ctx context.Context, input *struct{}) (*RequestInfo, error) {
+
+		var resp = &RequestInfo{}
+		resp.Body.IpAddress = ctx.Value("remoteAddr").(string)
+		resp.Body.Headers = ctx.Value("headers").(map[string]string)
+		resp.Body.InferedIp = resp.Body.IpAddress
+
+		return resp, nil
 	})
 
 	// API-endpoints for the GUI

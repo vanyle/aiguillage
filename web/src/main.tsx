@@ -5,7 +5,7 @@ import App from "./App";
 import "./index.css";
 
 // Configure the API
-if (process.env.NODE_ENV !== "development") {
+if (import.meta.env.PROD) {
 	OpenAPIConfig.BASE = location.origin;
 }
 

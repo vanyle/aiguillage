@@ -51,4 +51,5 @@ ENV PROXY=1
 COPY --from=backend-builder /aiguillage /aiguillage
 COPY --from=frontend-builder /web/dist /serve
 
+EXPOSE 8080
 ENTRYPOINT ["/aiguillage"]

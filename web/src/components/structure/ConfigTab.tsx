@@ -13,7 +13,7 @@ import { TextWithIcon } from "../reusable/TextWithIcon";
 import { ConfigItemEditor } from "./ConfigItemEditor";
 
 type ConfigTabProps = {
-	serviceId: string;
+	serviceId: number;
 };
 
 export const ConfigTab = ({ serviceId }: ConfigTabProps) => {
@@ -28,20 +28,20 @@ export const ConfigTab = ({ serviceId }: ConfigTabProps) => {
 	const addConfig = useCallback(async () => {
 		await setConfig({
 			key: newKey,
-			serviceId: Number(serviceId),
+			serviceId: serviceId,
 			value: newValue,
 		});
 		setNewKey("");
 		setNewValue("");
 		qc.invalidateQueries({
-			queryKey: UseDefaultServiceGetConfigKeyFn({ id: Number(serviceId) }),
+			queryKey: UseDefaultServiceGetConfigKeyFn({ id: serviceId }),
 		});
 	}, [newKey, newValue, qc, serviceId, setConfig]);
 
 	const clearAll = useCallback(async () => {
-		await clearAllConfig({ id: Number(serviceId) });
+		await clearAllConfig({ id: serviceId });
 		qc.invalidateQueries({
-			queryKey: UseDefaultServiceGetConfigKeyFn({ id: Number(serviceId) }),
+			queryKey: UseDefaultServiceGetConfigKeyFn({ id: serviceId }),
 		});
 	}, [clearAllConfig, qc, serviceId]);
 

@@ -15,7 +15,7 @@ import {
 import { Spacer } from "../reusable/Spacer";
 
 type VersionTabProps = {
-	serviceId: string;
+	serviceId: number;
 };
 
 export const VersionTab = ({ serviceId }: VersionTabProps) => {
@@ -29,12 +29,12 @@ export const VersionTab = ({ serviceId }: VersionTabProps) => {
 
 	const onSetClicked = useCallback(async () => {
 		await setServiceVersion({
-			id: Number(serviceId),
+			id: serviceId,
 			version: newVersion,
 		});
 		qc.invalidateQueries({
 			queryKey: UseDefaultServiceGetServiceKeyFn({
-				id: Number(serviceId),
+				id: serviceId,
 			}),
 		});
 	}, [newVersion, qc, serviceId, setServiceVersion]);
@@ -75,7 +75,7 @@ export const VersionTab = ({ serviceId }: VersionTabProps) => {
 			<div className="flex flex-col gap-y-4">
 				{versions.length === 1 && <p>No alternative versions</p>}
 				{versions
-					.filter((v) => v.ID !== Number(serviceId))
+					.filter((v) => v.ID !== serviceId)
 					.map((version) => (
 						<div key={version.ID} className="shadow rounded-md p-2">
 							<h2 className="text-xl font-semibold">{version.Version}</h2>

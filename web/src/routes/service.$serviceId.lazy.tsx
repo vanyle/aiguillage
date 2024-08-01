@@ -11,7 +11,10 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { createFileRoute } from "@tanstack/react-router";
 import { format } from "date-fns";
 import { useState } from "react";
-import { useServiceDescription } from "../components/hooks/use-service";
+import {
+	useServiceConfig,
+	useServiceDescription,
+} from "../components/hooks/use-service";
 import { Spacer } from "../components/reusable/Spacer";
 import { TextWithIcon } from "../components/reusable/TextWithIcon";
 import { ConfigTab } from "../components/structure/ConfigTab";
@@ -49,8 +52,13 @@ function CustomTabPanel(props: TabPanelProps) {
 }
 
 function Service() {
-	const { serviceId } = Route.useParams();
+	const { serviceId: serviceStrId } = Route.useParams();
+	const serviceId = parseInt(serviceStrId);
 	const service = useServiceDescription(serviceId);
+	const config = useServiceConfig(serviceId);
+
+	const displayUrl =
+		"display-url" in config ? config["display-url"] : service.Hostname;
 
 	const [currentTab, setCurrentTab] = useState<number>(0);
 
@@ -67,7 +75,7 @@ function Service() {
 						</h2>
 						<h2 className="opacity-90 text-xl flex items-center">
 							<TextWithIcon icon={faGlobe}>
-								<a href={`http://${service.Hostname}`}>{service.Hostname}</a>
+								<a href={`http://${displayUrl}`}>{displayUrl}</a>
 							</TextWithIcon>
 						</h2>
 					</div>

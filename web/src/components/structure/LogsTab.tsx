@@ -3,7 +3,7 @@ import { ServiceLog } from "../../../openapi/requests";
 import { isDataError } from "../../lib/isDataError";
 
 type LogsProps = {
-	serviceId: string;
+	serviceId: number;
 };
 
 const formatLogs = (logs: ServiceLog[]) => {
@@ -19,7 +19,7 @@ export const LogsTab = ({ serviceId }: LogsProps) => {
 		isError,
 		error,
 	} = useDefaultServiceGetLogs({
-		serviceId: Number(serviceId),
+		serviceId: serviceId,
 	});
 
 	if (isError) {

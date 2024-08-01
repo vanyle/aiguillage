@@ -7,23 +7,31 @@ import {
 	ServiceListBody,
 } from "../../../openapi/requests";
 import { isDataError } from "../../lib/isDataError";
-import { useDeleteService } from "../hooks/use-service";
+import { useDeleteService, useServiceDisplayUrl } from "../hooks/use-service";
 import { Spacer } from "../reusable/Spacer";
 
 type ServiceListProps = {
 	services: ErrorModel | ServiceListBody | undefined;
 };
 
-const renderEntity = (service: Service) => (
-	<div className="flex items-center">
-		<div className="flex flex-col p-2">
-			<div className="text-lg font-semibold">{service.Name}</div>
-			<div className="text-sm opacity-70">{service.Version}</div>
+type ServiceRendererProps = {
+	service: Service;
+};
+
+const ServiceRenderer = ({ service }: ServiceRendererProps) => {
+	const displayUrl = useServiceDisplayUrl(service.ID);
+
+	return (
+		<div className="flex items-center">
+			<div className="flex flex-col p-2">
+				<div className="text-lg font-semibold">{service.Name}</div>
+				<div className="text-sm opacity-70">{service.Version}</div>
+			</div>
+			<Spacer className="w-4" />
+			<div>{displayUrl}</div>
 		</div>
-		<Spacer className="w-4" />
-		<div>{service.Hostname}</div>
-	</div>
-);
+	);
+};
 
 export const ServiceList = ({ services }: ServiceListProps) => {
 	const deleteService = useDeleteService();
@@ -42,7 +50,7 @@ export const ServiceList = ({ services }: ServiceListProps) => {
 							to={`/service/${service.ID.toString()}`}
 							className={"flex-1 p-2 cursor-pointer"}
 						>
-							{renderEntity(service)}
+							<ServiceRenderer service={service} />
 						</Link>
 						<>
 							<div

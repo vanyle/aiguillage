@@ -5,7 +5,9 @@ import App from "./App";
 import "./index.css";
 
 // Configure the API
-OpenAPIConfig.BASE = location.origin;
+if (process.env.NODE_ENV !== "development") {
+	OpenAPIConfig.BASE = location.origin;
+}
 
 // Render the app
 const rootElement = document.getElementById("root")!;

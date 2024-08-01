@@ -12,18 +12,18 @@ import {
 } from "../../../openapi/queries/suspense";
 import { isDataError } from "../../lib/isDataError";
 
-export const useServiceConfig = (serviceId: string) => {
+export const useServiceConfig = (serviceId: number) => {
 	const { data } = useDefaultServiceGetConfigSuspense({
-		id: Number(serviceId),
+		id: serviceId,
 	});
 
 	if (isDataError(data)) throw data.detail;
 	return data.config;
 };
 
-export const useServiceDescription = (serviceId: string) => {
+export const useServiceDescription = (serviceId: number) => {
 	const { data } = useDefaultServiceGetServiceSuspense({
-		id: Number(serviceId),
+		id: serviceId,
 	});
 
 	if (isDataError(data)) throw data.detail;
@@ -44,8 +44,8 @@ export const useDeleteService = () => {
 	const navigate = useNavigate();
 
 	return useCallback(
-		async (serviceId: string | number) => {
-			await deleteService({ id: Number(serviceId) });
+		async (serviceId: number) => {
+			await deleteService({ id: serviceId });
 			qc.invalidateQueries({
 				queryKey: UseDefaultServiceGetServicesKeyFn(),
 			});
@@ -53,4 +53,13 @@ export const useDeleteService = () => {
 		},
 		[deleteService, navigate, qc]
 	);
+};
+
+export const useServiceDisplayUrl = (serviceId: number) => {
+	const service = useServiceDescription(serviceId);
+	const config = useServiceConfig(serviceId);
+
+	const displayUrl =
+		"display-url" in config ? config["display-url"] : service.Hostname;
+	return displayUrl;
 };

@@ -1,7 +1,7 @@
 import { useServiceConfig } from "../hooks/use-service";
 
 type ViewConfigProps = {
-	serviceId: string;
+	serviceId: number;
 };
 
 export const ViewConfigTab = ({ serviceId }: ViewConfigProps) => {

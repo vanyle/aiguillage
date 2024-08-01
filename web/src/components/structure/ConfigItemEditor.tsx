@@ -11,14 +11,14 @@ import { isDataError } from "../../lib/isDataError";
 import { Spacer } from "../reusable/Spacer";
 
 type ConfigItemEditorProps = {
-	serviceId: string;
+	serviceId: number;
 	configKey: string;
 };
 
-const useServiceConfigValue = (serviceId: string, configKey: string) => {
+const useServiceConfigValue = (serviceId: number, configKey: string) => {
 	const { data } = useDefaultServiceGetConfigItemSuspense({
 		key: configKey,
-		serviceId: Number(serviceId),
+		serviceId: serviceId,
 	});
 
 	if (isDataError(data)) throw data.detail;
@@ -38,18 +38,18 @@ export const ConfigItemEditor = ({
 	const setConfigItem = useCallback(async () => {
 		await setConfig({
 			key: configKey,
-			serviceId: Number(serviceId),
+			serviceId: serviceId,
 			value: value,
 		});
 		qc.invalidateQueries({
 			queryKey: UseDefaultServiceGetConfigItemKeyFn({
 				key: configKey,
-				serviceId: Number(serviceId),
+				serviceId: serviceId,
 			}),
 		});
 		qc.invalidateQueries({
 			queryKey: UseDefaultServiceGetConfigKeyFn({
-				id: Number(serviceId),
+				id: serviceId,
 			}),
 		});
 	}, [configKey, qc, serviceId, setConfig, value]);

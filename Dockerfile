@@ -45,6 +45,8 @@ FROM scratch
 
 ENV GIN_MODE=release
 ENV PROD=1
+# You can overwrite this to "false" or "or" to ignore the X-Real-Ip header.
+ENV PROXY=1
 
 COPY --from=backend-builder /aiguillage /aiguillage
 COPY --from=frontend-builder /web/dist /serve

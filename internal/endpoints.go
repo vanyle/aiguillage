@@ -3,6 +3,7 @@ package internal
 import (
 	"context"
 	"errors"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -101,25 +102,33 @@ type LogFilter struct {
 
 type RequestInfo struct {
 	Body struct {
-		IpAddress string            `example:"127.0.0.1" doc:"The IP you used to connect"`
+		IpAddress string            `example:"127.0.0.1" doc:"The IP you used to connect. Will be set automatically if behind a reverse proxy."`
 		Headers   map[string]string `doc:"The HTTP headers received"`
-		InferedIp string            `example:"127.0.0.1" doc:"The IP that was inferred from the headers and IP"`
 	}
 }
 
 func SetupEndpoints(api huma.API, db *gorm.DB) {
 
-	api.UseMiddleware(func(ctx huma.Context, next func(ctx huma.Context)) {
-		addr := ctx.RemoteAddr()
-		// Strip port from addr
-		addr = addr[:strings.LastIndex(addr, ":")]
-		ctx = huma.WithValue(ctx, "remoteAddr", addr)
+	proxyStr := os.Getenv("PROXY")
+	behindReverseProxy := proxyStr != "" && strings.ToLower(proxyStr) != "false"
 
+	api.UseMiddleware(func(ctx huma.Context, next func(ctx huma.Context)) {
 		var headers map[string]string = make(map[string]string)
 		ctx.EachHeader(func(key, value string) {
 			headers[key] = value
 		})
+		ctx = huma.WithValue(ctx, "headers", headers)
 
+		addr := ""
+		realIp, ipHeaderFound := headers["X-Real-Ip"]
+		if behindReverseProxy && ipHeaderFound {
+			addr = realIp
+		} else {
+			// Strip port from RemoteAddr
+			addr = ctx.RemoteAddr()
+			addr = addr[:strings.LastIndex(addr, ":")]
+		}
+		ctx = huma.WithValue(ctx, "remoteAddr", addr)
 		ctx = huma.WithValue(ctx, "headers", headers)
 		next(ctx)
 	})
@@ -240,8 +249,6 @@ func SetupEndpoints(api huma.API, db *gorm.DB) {
 		var resp = &RequestInfo{}
 		resp.Body.IpAddress = ctx.Value("remoteAddr").(string)
 		resp.Body.Headers = ctx.Value("headers").(map[string]string)
-		resp.Body.InferedIp = resp.Body.IpAddress
-
 		return resp, nil
 	})
 

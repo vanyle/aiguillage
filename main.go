@@ -16,7 +16,7 @@ import (
 	"vanyle/Aiguillage/internal"
 )
 
-const DB_FILENAME = "aiguillage.db"
+const DB_FILENAME = "db/aiguillage.db"
 const PORT = "8080"
 
 func main() {

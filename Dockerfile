@@ -48,9 +48,9 @@ ENV PROD=1
 # You can overwrite this to "false" or "or" to ignore the X-Real-Ip header.
 ENV PROXY=1
 
-COPY --from=backend-builder /aiguillage /aiguillage
+COPY --from=backend-builder /aiguillage /
 COPY --from=frontend-builder /web/dist /serve
-RUN mkdir -p /db
+COPY ./db /db
 
 EXPOSE 8080
 ENTRYPOINT ["/aiguillage"]

@@ -4,7 +4,7 @@
   <i>Tiny Configuration provider for micro services with a GUI.</i>
 </p>
 <p align="center">
-  <a href="https://github.com/vanyle/aiguillage/"><img src="https://img.shields.io/github/stars/aiguillage/aiguillage?style=social" alt="GitHub Stars"></a>
+  <a href="https://github.com/vanyle/aiguillage/"><img src="https://img.shields.io/github/stars/vanyle/aiguillage?style=social" alt="GitHub Stars"></a>
 </p>
 <hr class="solid">
 

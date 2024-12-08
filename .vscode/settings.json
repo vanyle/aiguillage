@@ -11,9 +11,21 @@
 	"editor.suggest.showSnippets": false,
 	"editor.formatOnSave": true,
 	"prettier.useTabs": true,
-	"editor.codeActionsOnSave": {
-		"source.removeUnusedImports": "always",
-		"source.organizeImports": "always"
+	"[python]": {
+		"diffEditor.ignoreTrimWhitespace": false,
+		"gitlens.codeLens.symbolScopes": ["!Module"],
+		"editor.formatOnType": true,
+		"editor.wordBasedSuggestions": "off",
+		"editor.codeActionsOnSave": {
+			"source.removeUnusedImports": "always",
+			"source.organizeImports": "always"
+		}
+	},
+	"[typescript]": {
+		"editor.codeActionsOnSave": {
+			"source.removeUnusedImports": "always",
+			"source.organizeImports": "always"
+		}
 	},
 	"typescript.autoClosingTags": false,
 	"typescript.suggest.autoImports": true,

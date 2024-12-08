@@ -22,6 +22,9 @@ const PORT = "8080"
 func main() {
 
 	isProd := os.Getenv("PROD")
+	host := GetEnvOrDefault("HOST", "localhost")
+	port := GetEnvOrDefault("PORT", PORT)
+
 	gormConfig := &gorm.Config{}
 	if isProd != "" {
 		gormConfig = &gorm.Config{
@@ -49,7 +52,7 @@ func main() {
 
 	config := huma.DefaultConfig("Aiguillage API", "1.0.0")
 	config.Servers = []*huma.Server{
-		{URL: "http://localhost:" + PORT},
+		{URL: "http://" + host + ":" + port},
 	}
 	api := humagin.New(r, config)
 	internal.SetupEndpoints(api, db)
@@ -64,4 +67,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func GetEnvOrDefault(key string, defaultValue string) string {
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return defaultValue
 }

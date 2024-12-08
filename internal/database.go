@@ -67,7 +67,7 @@ func CreateService(db *gorm.DB, name string, version string, hostname string) (u
 		// a (name, version) identities a service
 		return 0, gorm.ErrDuplicatedKey
 	}
-	db.Table("services").Where("name = ? AND hostname = ?", name, hostname).Find(&exists)
+	db.Table("services").Where("name = ? AND hostname = ?", name, hostname).Count(&exists)
 	if exists != 0 {
 		// two version of a service cannot exist at the same url.
 		return 0, gorm.ErrDuplicatedKey
